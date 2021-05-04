@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ManageHotelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="ManageHotelEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Customers" EntityType="ManageHotelModel.Customer" />
+    <EntitySet Name="Managers" EntityType="ManageHotelModel.Manager" />
+    <EntitySet Name="RoomCategories" EntityType="ManageHotelModel.RoomCategory" />
+    <EntitySet Name="RoomHistories" EntityType="ManageHotelModel.RoomHistory" />
+    <EntitySet Name="Rules" EntityType="ManageHotelModel.Rule" />
+    <EntitySet Name="sysdiagrams" EntityType="ManageHotelModel.sysdiagram" />
+    <AssociationSet Name="FK__Customer__roomNa__18EBB532" Association="ManageHotelModel.FK__Customer__roomNa__18EBB532">
+      <End Role="RoomCategory" EntitySet="RoomCategories" />
+      <End Role="Customer" EntitySet="Customers" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="kind" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="identityNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="rentedDay" Type="DateTime" Precision="3" />
+    <Property Name="roomName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="ordinalNumber" Type="Int32" />
+    <NavigationProperty Name="RoomCategory" Relationship="ManageHotelModel.FK__Customer__roomNa__18EBB532" FromRole="Customer" ToRole="RoomCategory" />
+  </EntityType>
+  <EntityType Name="Manager">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="account" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="RoomCategory">
+    <Key>
+      <PropertyRef Name="name" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="kind" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="note" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="price" Type="Double" />
+    <Property Name="roomStatus" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="countRented" Type="Int32" />
+    <Property Name="rentedDay" Type="DateTime" Precision="3" />
+    <Property Name="total" Type="Double" />
+    <Property Name="ordinalNumber" Type="Int32" />
+    <NavigationProperty Name="Customers" Relationship="ManageHotelModel.FK__Customer__roomNa__18EBB532" FromRole="RoomCategory" ToRole="Customer" />
+  </EntityType>
+  <EntityType Name="RoomHistory">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="kind" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="countRented" Type="Int32" />
+    <Property Name="rentedDay" Type="DateTime" Precision="3" />
+    <Property Name="total" Type="Double" />
+  </EntityType>
+  <EntityType Name="Rule">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nRoomKind" Type="Int32" Nullable="false" />
+    <Property Name="roomKindPrice" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="nCustomerKind" Type="Int32" Nullable="false" />
+    <Property Name="customerKindCoefficient" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="maximumCustomer" Type="Int32" Nullable="false" />
+    <Property Name="surchargeRatio" Type="Double" Nullable="false" />
+    <Property Name="surchargeBeginning" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK__Customer__roomNa__18EBB532">
+    <End Type="ManageHotelModel.RoomCategory" Role="RoomCategory" Multiplicity="0..1" />
+    <End Type="ManageHotelModel.Customer" Role="Customer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RoomCategory">
+        <PropertyRef Name="name" />
+      </Principal>
+      <Dependent Role="Customer">
+        <PropertyRef Name="roomName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
